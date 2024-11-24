@@ -1,10 +1,10 @@
 package com.example.comeonplayerserviceassignment.dto;
 
-import com.example.comeonplayerserviceassignment.palyer.PlayerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,8 +15,8 @@ public class SessionDTO
     private String id;
     private PlayerDTO player;
     private LocalDateTime startTime;
-    private Long dailyTimeLimitInMinutes;
-    private Long dailyTimeUsedByPlayerInMinutes;
+    private LocalDate sessionDate;
+    private long dailyTimeUsedByPlayerInMinutes;
     private boolean loggedIn;
     private boolean active;
 }

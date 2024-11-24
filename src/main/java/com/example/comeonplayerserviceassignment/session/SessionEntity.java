@@ -2,6 +2,8 @@ package com.example.comeonplayerserviceassignment.session;
 
 import com.example.comeonplayerserviceassignment.palyer.PlayerEntity;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,7 +22,7 @@ public class SessionEntity {
     private LocalDateTime startTime;
 
     @Column(nullable = false)
-    private Long dailyTimeLimitInMinutes;
+    private LocalDate sessionDate;
 
     @Column(nullable = false)
     private Long dailyTimeUsedByPlayerInMinutes;
@@ -30,11 +32,11 @@ public class SessionEntity {
     @Column(nullable = false)
     private boolean active;
 
-    public SessionEntity(PlayerEntity player, LocalDateTime startTime, long dailyTimeLimitInMinutes) {
+    public SessionEntity(PlayerEntity player, LocalDateTime startTime, LocalDate sessionDate) {
         this.id = UUID.randomUUID().toString();
         this.player = player;
         this.startTime = startTime;
-        this.dailyTimeLimitInMinutes = dailyTimeLimitInMinutes;
+        this.sessionDate = sessionDate;
         this.dailyTimeUsedByPlayerInMinutes = Long.valueOf(0);
         this.loggedIn = true;
         this.active = true;
@@ -69,12 +71,12 @@ public class SessionEntity {
         this.startTime = startTime;
     }
 
-    public Long getDailyTimeLimitInMinutes() {
-        return dailyTimeLimitInMinutes;
+    public LocalDate getSessionDate() {
+        return sessionDate;
     }
 
-    public void setDailyTimeLimitInMinutes(Long dailyTimeLimitInMinutes) {
-        this.dailyTimeLimitInMinutes = dailyTimeLimitInMinutes;
+    public void setSessionDate(LocalDate sessionDate) {
+        this.sessionDate = sessionDate;
     }
 
     public Long getDailyTimeUsedByPlayerInMinutes() {
@@ -103,20 +105,25 @@ public class SessionEntity {
 
 
     public boolean hasExceededTimeLimit() {
-        if (dailyTimeLimitInMinutes == -1)
+        if (this.player.getDailyTimeLimit() == -1)
         {
             return false;
         }
-        return this.dailyTimeUsedByPlayerInMinutes >= this.dailyTimeLimitInMinutes;
+        return this.dailyTimeUsedByPlayerInMinutes >= this.player.getDailyTimeLimit();
     }
+
+    public boolean isDateYesterday() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        return sessionDate.isEqual(yesterday);
+    }
+
 
     @Override
     public String toString() {
         return "SessionEntity{" +
                 "id='" + id + '\'' +
-                ", player=" + player +
                 ", startTime=" + startTime +
-                ", dailyTimeLimitInMinutes=" + dailyTimeLimitInMinutes +
+                ", sessionDate=" + sessionDate +
                 ", dailyTimeUsedByPlayerInMinutes=" + dailyTimeUsedByPlayerInMinutes +
                 ", loggedIn=" + loggedIn +
                 ", active=" + active +

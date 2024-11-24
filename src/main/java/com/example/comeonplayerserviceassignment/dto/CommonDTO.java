@@ -49,7 +49,7 @@ public class CommonDTO
                 sessionEntity.getId(),
                 playerDTO,
                 sessionEntity.getStartTime(),
-                sessionEntity.getDailyTimeLimitInMinutes(),
+                sessionEntity.getSessionDate(),
                 sessionEntity.getDailyTimeUsedByPlayerInMinutes(),
                 sessionEntity.isLoggedIn(),
                 sessionEntity.isActive());

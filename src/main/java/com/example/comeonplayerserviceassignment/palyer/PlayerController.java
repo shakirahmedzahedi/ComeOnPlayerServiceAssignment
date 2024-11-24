@@ -3,6 +3,7 @@ package com.example.comeonplayerserviceassignment.palyer;
 import com.example.comeonplayerserviceassignment.dto.PlayerDTO;
 import com.example.comeonplayerserviceassignment.model.PlayerLogInRequest;
 import com.example.comeonplayerserviceassignment.model.PlayerRegistrationRequest;
+import com.example.comeonplayerserviceassignment.model.TimeLimitRequest;
 import com.example.comeonplayerserviceassignment.utils.JsonUtils;
 import com.example.comeonplayerserviceassignment.utils.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class PlayerController
     @PostMapping("/logIn")
     public ResponseEntity<?> playerLogIn(@RequestBody PlayerLogInRequest playerLogInRequest)
     {
-        PlayerDTO response = playerService.playerLogIn(playerLogInRequest);
+        ResponseWrapper<PlayerDTO> response = playerService.playerLogIn(playerLogInRequest);
+        response.setToken(playerLogInRequest.getEmail());
 
         return jsonUtils.responseAsJson(response);
     }
@@ -40,7 +42,16 @@ public class PlayerController
     @GetMapping("/logOut/{email}")
     public ResponseEntity<?> playerLogOut(@RequestParam String email)
     {
-        PlayerDTO response = playerService.playerLogOut(email);
+        ResponseWrapper<PlayerDTO> response = playerService.playerLogOut(email);
+
+        return jsonUtils.responseAsJson(response);
+    }
+
+    @CrossOrigin
+    @PatchMapping("/setTimeLimit")
+    public ResponseEntity<?> setTimeLimitForPlayer(@RequestBody TimeLimitRequest timeLimitRequest)
+    {
+        ResponseWrapper<PlayerDTO> response = playerService.setTimeLimitForPlayer(timeLimitRequest);
 
         return jsonUtils.responseAsJson(response);
     }
