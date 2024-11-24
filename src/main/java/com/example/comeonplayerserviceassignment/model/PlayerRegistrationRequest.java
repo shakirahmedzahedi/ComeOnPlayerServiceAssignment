@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class PlayerRegistrationRequest
 {
-    @Email(message = "Invalid Email")
+    @Email
     @NotBlank(message = "Email is required")
     private String email;
 

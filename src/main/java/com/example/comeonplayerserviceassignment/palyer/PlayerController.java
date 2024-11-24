@@ -1,5 +1,7 @@
 package com.example.comeonplayerserviceassignment.palyer;
 
+import com.example.comeonplayerserviceassignment.dto.PlayerDTO;
+import com.example.comeonplayerserviceassignment.model.PlayerLogInRequest;
 import com.example.comeonplayerserviceassignment.model.PlayerRegistrationRequest;
 import com.example.comeonplayerserviceassignment.utils.JsonUtils;
 import com.example.comeonplayerserviceassignment.utils.ResponseWrapper;
@@ -21,6 +23,24 @@ public class PlayerController
     public ResponseEntity<?> registerNewPlayer(@RequestBody PlayerRegistrationRequest playerRegistrationRequest)
     {
         ResponseWrapper<String> response = playerService.registerNewPlayer(playerRegistrationRequest);
+
+        return jsonUtils.responseAsJson(response);
+    }
+
+    @CrossOrigin
+    @PostMapping("/logIn")
+    public ResponseEntity<?> playerLogIn(@RequestBody PlayerLogInRequest playerLogInRequest)
+    {
+        PlayerDTO response = playerService.playerLogIn(playerLogInRequest);
+
+        return jsonUtils.responseAsJson(response);
+    }
+
+    @CrossOrigin
+    @GetMapping("/logOut/{email}")
+    public ResponseEntity<?> playerLogOut(@RequestParam String email)
+    {
+        PlayerDTO response = playerService.playerLogOut(email);
 
         return jsonUtils.responseAsJson(response);
     }

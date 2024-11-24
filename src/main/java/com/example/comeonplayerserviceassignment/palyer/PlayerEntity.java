@@ -1,11 +1,14 @@
 package com.example.comeonplayerserviceassignment.palyer;
 
 import com.example.comeonplayerserviceassignment.model.Address;
+import com.example.comeonplayerserviceassignment.session.SessionEntity;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name ="player")
@@ -25,12 +28,12 @@ public class PlayerEntity
     @Column(nullable = false)
     private String password;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "First Name is required")
     @Size(max = 20, message = "FirstName cannot exceed 0 characters")
     @Column(nullable = false)
     private String firstName;
 
-    @NotBlank(message = "Surname is required")
+    @NotBlank(message = "Sur Name is required")
     @Size(max = 20, message = "Surname cannot exceed 20 characters")
     @Column(nullable = false)
     private String surName;
@@ -50,6 +53,9 @@ public class PlayerEntity
     @Min(value = 0, message = "Time used today must be at least 0")
     private int timeUsedToday = 0;
 
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<SessionEntity> sessionEntityList = new ArrayList<>();
+
     public PlayerEntity() {
     }
 
@@ -60,6 +66,7 @@ public class PlayerEntity
         this.surName = surName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
+        this.sessionEntityList = new ArrayList<>();
     }
 
     public long getId() {
@@ -132,5 +139,33 @@ public class PlayerEntity
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<SessionEntity> getSessionEntityList() {
+        return sessionEntityList;
+    }
+
+    public void setSessionEntityList(List<SessionEntity> sessionEntityList) {
+        this.sessionEntityList = sessionEntityList;
+    }
+    public void addSession(SessionEntity session)
+    {
+        this.sessionEntityList.add(session);
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerEntity{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", surName='" + surName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", address=" + address +
+                ", dailyTimeLimit=" + dailyTimeLimit +
+                ", timeUsedToday=" + timeUsedToday +
+                ", sessionEntityList=" + sessionEntityList +
+                '}';
     }
 }
