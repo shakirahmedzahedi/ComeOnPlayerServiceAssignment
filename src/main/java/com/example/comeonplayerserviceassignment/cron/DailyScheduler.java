@@ -29,6 +29,7 @@ public class DailyScheduler
         {
             session.setSessionDate(LocalDate.now());
             session.setDailyTimeUsedByPlayerInMinutes(0L);
+            sessionRepository.save(session);
             logger.info("Reset: "+ session.toString());
         }
 

@@ -18,10 +18,10 @@ public class PlayerDTO
     private String surName;
     private LocalDate dateOfBirth;
     private AddressDTO address;
-    private int dailyTimeLimit = -1;
+    private long dailyTimeLimit = -1;
     private List<SessionDTO> sessions;
 
-    public PlayerDTO(long id, String email, String firstName, String surName, LocalDate dateOfBirth, AddressDTO address, int dailyTimeLimit) {
+    public PlayerDTO(long id, String email, String firstName, String surName, LocalDate dateOfBirth, AddressDTO address, long dailyTimeLimit) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;

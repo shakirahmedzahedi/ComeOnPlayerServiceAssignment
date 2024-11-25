@@ -127,7 +127,7 @@ public class PlayerService
         return response;
     }
 
-
+    @Transactional
     public ResponseWrapper<PlayerDTO> playerLogOut(String email)
     {
         logger.info("Request parameter: "+ email);
@@ -141,7 +141,9 @@ public class PlayerService
             if (activeSession.isPresent() && activeSession.get().isLoggedIn())
             {
                 activeSession.get().setLoggedIn(false);
-                activeSession.get().setDailyTimeUsedByPlayerInMinutes(activeSession.get().getDailyTimeUsedByPlayerInMinutes());
+                activeSession.get().updateDailyTimeForPlayer();
+                logger.info("User Time: "+ activeSession.get().getDailyTimeUsedByPlayerInMinutes());
+
                 sessionRepository.save(activeSession.get());
                 playerRepository.save(player);
                 response.setData(commonDTO.toPlayerDTO(player));

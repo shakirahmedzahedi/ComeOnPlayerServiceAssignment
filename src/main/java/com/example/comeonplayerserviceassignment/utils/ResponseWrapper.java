@@ -38,4 +38,13 @@ public class ResponseWrapper<T>
     public void addError(ErrorModel error) {
         this.errors.add(error);
     }
+
+    @Override
+    public String toString() {
+        return "ResponseWrapper{" +
+                "errors=" + errors +
+                ", token='" + token + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

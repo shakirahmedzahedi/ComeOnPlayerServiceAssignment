@@ -4,7 +4,6 @@ import com.example.comeonplayerserviceassignment.model.Address;
 import com.example.comeonplayerserviceassignment.session.SessionEntity;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,9 +37,9 @@ public class PlayerEntity
     @Valid
     private Address address;
 
-    private int dailyTimeLimit = -1; // Default is "no limit"
+    private long dailyTimeLimit = -1; // Default is "no limit"
 
-    private int timeUsedToday = 0;
+
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<SessionEntity> sessionEntityList = new ArrayList<>();
@@ -66,20 +65,12 @@ public class PlayerEntity
         this.id = id;
     }
 
-    public int getDailyTimeLimit() {
+    public long getDailyTimeLimit() {
         return dailyTimeLimit;
     }
 
-    public void setDailyTimeLimit(int dailyTimeLimit) {
+    public void setDailyTimeLimit(long dailyTimeLimit) {
         this.dailyTimeLimit = dailyTimeLimit;
-    }
-
-    public int getTimeUsedToday() {
-        return timeUsedToday;
-    }
-
-    public void setTimeUsedToday(int timeUsedToday) {
-        this.timeUsedToday = timeUsedToday;
     }
 
     public String getEmail() {
@@ -147,13 +138,11 @@ public class PlayerEntity
         return "PlayerEntity{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", surName='" + surName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", address=" + address +
                 ", dailyTimeLimit=" + dailyTimeLimit +
-                ", timeUsedToday=" + timeUsedToday +
                 ", sessionEntityList=" + sessionEntityList +
                 '}';
     }

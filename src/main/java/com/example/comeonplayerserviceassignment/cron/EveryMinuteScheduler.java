@@ -30,6 +30,8 @@ public class EveryMinuteScheduler
         {
             for (SessionEntity session : sessionEntityList)
             {
+                session.updateDailyTimeForPlayer();
+                sessionRepository.save(session);
                 if (session.hasExceededTimeLimit())
                 {
                     logger.info("PlayerId: " + session.getPlayer().getId() + " has Limit: "+ session.getPlayer().getDailyTimeLimit()+ " Exceed the Limit for today");

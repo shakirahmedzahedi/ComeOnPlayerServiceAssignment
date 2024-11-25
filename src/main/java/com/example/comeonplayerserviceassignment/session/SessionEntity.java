@@ -32,7 +32,8 @@ public class SessionEntity {
     @Column(nullable = false)
     private boolean active;
 
-    public SessionEntity(PlayerEntity player, LocalDateTime startTime, LocalDate sessionDate) {
+    public SessionEntity(PlayerEntity player, LocalDateTime startTime, LocalDate sessionDate)
+    {
         this.id = UUID.randomUUID().toString();
         this.player = player;
         this.startTime = startTime;
@@ -84,7 +85,7 @@ public class SessionEntity {
     }
 
     public void setDailyTimeUsedByPlayerInMinutes(Long dailyTimeUsedByPlayerInMinutes) {
-        this.dailyTimeUsedByPlayerInMinutes  += java.time.Duration.between(startTime, LocalDateTime.now()).toMinutes();
+        this.dailyTimeUsedByPlayerInMinutes  = dailyTimeUsedByPlayerInMinutes;
     }
 
     public boolean isLoggedIn() {
@@ -104,7 +105,8 @@ public class SessionEntity {
     }
 
 
-    public boolean hasExceededTimeLimit() {
+    public boolean hasExceededTimeLimit()
+    {
         if (this.player.getDailyTimeLimit() == -1)
         {
             return false;
@@ -112,9 +114,10 @@ public class SessionEntity {
         return this.dailyTimeUsedByPlayerInMinutes >= this.player.getDailyTimeLimit();
     }
 
-    public boolean isDateYesterday() {
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        return sessionDate.isEqual(yesterday);
+    public void updateDailyTimeForPlayer()
+    {
+        this.dailyTimeUsedByPlayerInMinutes  += java.time.Duration.between(startTime, LocalDateTime.now()).toMinutes();
+        this.startTime = LocalDateTime.now();
     }
 
 
